@@ -13,16 +13,19 @@ export default function LpDetailPage() {
 
   const handleLike = async () => {
     if (!lpId) return;
+    
     try {
       if (isLiked) {
         await unlikeMutation.mutateAsync(Number(lpId));
-        setIsLiked(false);
       } else {
         await likeMutation.mutateAsync(Number(lpId));
-        setIsLiked(true);
       }
+      // API 호출 성공 후에만 상태 업데이트
+      setIsLiked(!isLiked);
     } catch (error) {
       console.error('좋아요 처리 실패:', error);
+      // 에러 발생 시 사용자에게 알림 (선택사항)
+      alert('좋아요 처리에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -75,11 +78,12 @@ export default function LpDetailPage() {
       <div className="flex gap-4 justify-end">
         <button
           onClick={handleLike}
-          className={`px-6 py-3 rounded transition ${
+          disabled={likeMutation.isPending || unlikeMutation.isPending}
+          className={`px-6 py-3 rounded transition disabled:opacity-50 disabled:cursor-not-allowed ${
             isLiked ? 'bg-red-600 hover:bg-red-500' : 'bg-fuchsia-600 hover:bg-fuchsia-500'
           }`}
         >
-          {isLiked ? '❤️ 좋아요 취소' : '🤍 좋아요'}
+          {likeMutation.isPending || unlikeMutation.isPending ? '처리중...' : isLiked ? '❤️ 좋아요 취소' : '🤍 좋아요'}
         </button>
         <button className="px-6 py-3 bg-green-600 hover:bg-green-500 rounded transition">
           수정
