@@ -65,7 +65,7 @@ const LoginPage = () => {
           type="button"
           onClick={handleSubmit}
           disabled={isDisabled}
-          className="w-full bg-blue-600 text-white py-3 rounded-md text-lg fond-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:bg-gray-300"
+          className="w-full bg-blue-600 text-white py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition-colors cursor-pointer disabled:bg-gray-300"
         >
           로그인
         </button>
